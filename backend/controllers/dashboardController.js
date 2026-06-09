@@ -52,3 +52,24 @@ exports.getDashboardStats = async (req, res) => {
     });
   }
 };
+
+exports.getChartData = async (req, res) => {
+  try {
+    const present = await Attendance.countDocuments({
+      status: 'Present'
+    });
+
+    const absent = await Attendance.countDocuments({
+      status: 'Absent'
+    });
+
+    res.json({
+      present,
+      absent
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: err.message
+    });
+  }
+};

@@ -4,11 +4,15 @@ const {
   createStudent,
   getStudents,
   updateStudent,
-  deleteStudent
+  deleteStudent,
+  searchStudents,
+  getStudentByName
 } = require('../controllers/studentController');
 
 router.post('/', createStudent);
 router.get('/', getStudents);
+router.get('/search', searchStudents);
+router.get('/name/:name', getStudentByName);
 router.put('/:id', updateStudent);
 router.delete('/:id', deleteStudent);
 

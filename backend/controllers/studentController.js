@@ -50,3 +50,63 @@ exports.deleteStudent = async (req, res) => {
     });
   }
 };
+
+// Search students
+exports.searchStudents = async (req, res) => {
+  try {
+    const { name } = req.query;
+
+    const students = await Student.find({
+      name: {
+        $regex: name,
+        $options: 'i'
+      }
+    }).populate('course');
+
+    res.json(students);
+  } catch (err) {
+    res.status(500).json({
+      message: err.message
+    });
+  }
+};
+
+exports.getStudentByName = async (
+  req,
+  res
+) => {
+
+  try {
+
+    const student =
+      await Student.findOne({
+
+        name: req.params.name
+
+      });
+
+    if (!student) {
+
+      return res.status(404).json({
+
+        message:
+          'Student not found'
+
+      });
+
+    }
+
+    res.json(student);
+
+  } catch (err) {
+
+    res.status(500).json({
+
+      message:
+        err.message
+
+    });
+
+  }
+
+};
