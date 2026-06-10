@@ -1,4 +1,5 @@
 const Course = require('../models/Course');
+const Attendance = require('../models/Attendance');
 
 exports.createCourse = async (req, res) => {
   try {
@@ -51,4 +52,56 @@ exports.deleteCourse = async (req, res) => {
       message: err.message
     });
   }
+};
+
+exports.getTopCourses = async (req, res) => {
+
+  try {
+
+    const topCourses =
+      await Attendance.aggregate([
+
+        {
+          $group: {
+            _id: '$course',
+            attendanceCount: {
+              $sum: 1
+            }
+          }
+        },
+
+        {
+          $sort: {
+            attendanceCount: -1
+          }
+        },
+
+        {
+          $limit: 5
+        }
+
+      ]);
+
+    await Course.populate(
+      topCourses,
+      {
+        path: '_id'
+      }
+    );
+
+    res.json(topCourses);
+
+  }
+
+  catch (err) {
+
+    res.status(500).json({
+
+      message:
+        err.message
+
+    });
+
+  }
+
 };

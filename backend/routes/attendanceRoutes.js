@@ -4,11 +4,13 @@ const router = express.Router();
 const {
   markAttendance,
   getAttendance,
-  getAttendanceReport
+  getAttendanceReport,
+  getAttendanceStats
 } = require('../controllers/attendanceController');
 
 router.post('/', markAttendance);
 router.get('/', getAttendance);
 router.get('/reports', getAttendanceReport);
+router.get('/stats', getAttendanceStats);
 
 module.exports = router;

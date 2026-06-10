@@ -20,7 +20,8 @@ function AttendanceView() {
 
   const fetchStudents = async () => {
     const res = await axios.get('http://localhost:5000/api/students');
-    setStudents(res.data);
+  
+    setStudents(res.data.students);
   };
 
   const fetchCourses = async () => {
@@ -72,7 +73,7 @@ function AttendanceView() {
         >
           <option value="">Select Student</option>
 
-          {students.map((student) => (
+          {(students || []).map((student) => (
             <option
               key={student._id}
               value={student._id}

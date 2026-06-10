@@ -154,3 +154,44 @@ exports.getAttendanceReport = async (req, res) => {
     });
   }
 };
+
+// New endpoint to get attendance statistics
+exports.getAttendanceStats = async (req, res) => {
+  try {
+
+    const totalRecords =
+      await Attendance.countDocuments();
+
+    const presentCount =
+      await Attendance.countDocuments({
+        status: 'Present'
+      });
+
+    const absentCount =
+      await Attendance.countDocuments({
+        status: 'Absent'
+      });
+
+    const attendanceRate =
+      totalRecords > 0
+        ? (
+            (presentCount / totalRecords) *
+            100
+          ).toFixed(2)
+        : 0;
+
+    res.json({
+      totalRecords,
+      presentCount,
+      absentCount,
+      attendanceRate
+    });
+
+  } catch (err) {
+
+    res.status(500).json({
+      message: err.message
+    });
+
+  }
+};

@@ -1,4 +1,6 @@
 const Student = require('../models/Student');
+const Attendance = require('../models/Attendance');
+const mongoose = require('mongoose');
 
 // Create student
 exports.createStudent = async (req, res) => {
@@ -12,13 +14,63 @@ exports.createStudent = async (req, res) => {
 
 // Get all students
 exports.getStudents = async (req, res) => {
+
   try {
-    const students = await Student.find().populate('course');
-    res.json(students);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+
+    const page =
+      parseInt(req.query.page) || 1;
+
+    const limit =
+      parseInt(req.query.limit) || 10;
+
+    const sort =
+      req.query.sort || 'name';
+
+    const skip =
+      (page - 1) * limit;
+
+    const students =
+      await Student.find()
+        .populate('course')
+        .sort({
+          [sort]: 1
+        })
+        .skip(skip)
+        .limit(limit);
+
+    const totalStudents =
+      await Student.countDocuments();
+
+    res.json({
+
+      currentPage: page,
+
+      totalPages:
+        Math.ceil(
+          totalStudents / limit
+        ),
+
+      totalStudents,
+
+      students
+
+    });
+
   }
+
+  catch (err) {
+
+    res.status(500).json({
+
+      message:
+        err.message
+
+    });
+
+  }
+
 };
+
 // Update student
 exports.updateStudent = async (req, res) => {
   try {
@@ -71,6 +123,7 @@ exports.searchStudents = async (req, res) => {
   }
 };
 
+// Get student by name
 exports.getStudentByName = async (
   req,
   res
@@ -99,6 +152,50 @@ exports.getStudentByName = async (
     res.json(student);
 
   } catch (err) {
+
+    res.status(500).json({
+
+      message:
+        err.message
+
+    });
+
+  }
+
+};
+
+// Get student attendance history
+exports.getStudentHistory = async (
+  req,
+  res
+) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({
+      message: 'Invalid student ID'
+    });
+  }
+
+  try {
+
+    const records =
+      await Attendance.find({
+
+        student:
+          req.params.id
+
+      })
+        .populate('course')
+        .sort({
+
+          date: -1
+
+        });
+
+    res.json(records);
+
+  }
+
+  catch (err) {
 
     res.status(500).json({
 

@@ -14,7 +14,7 @@ function StudentList() {
         'http://localhost:5000/api/students'
       );
 
-      setStudents(res.data);
+      setStudents(res.data.students);
     } catch (err) {
       console.error(err);
     }
@@ -74,7 +74,7 @@ function StudentList() {
         </thead>
 
         <tbody>
-          {students.map((student) => (
+          {(students || []).map((student) => (
             <tr key={student._id}>
               <td>{student.name}</td>
               <td>{student.rollNumber}</td>
