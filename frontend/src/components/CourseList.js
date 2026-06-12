@@ -46,17 +46,29 @@ function CourseList() {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+
+    <div className="card">
+
       <h2>Course List</h2>
 
-      <table border="1" cellPadding="10">
+      <input
+        className="search-box"
+        type="text"
+        placeholder="Search Course..."
+      />
+
+      <table>
+
         <thead>
+
           <tr>
             <th>Name</th>
             <th>Code</th>
             <th>Actions</th>
           </tr>
+
         </thead>
+
 
         <tbody>
           {courses.map((course) => (
@@ -65,21 +77,21 @@ function CourseList() {
               <td>{course.code}</td>
 
               <td>
+
                 <button
+                  className="edit-btn"
                   onClick={() => editCourse(course)}
                 >
                   Edit
                 </button>
 
-                {' '}
-
                 <button
-                  onClick={() =>
-                    deleteCourse(course._id)
-                  }
+                  className="delete-btn"
+                  onClick={() => deleteCourse(course._id)}
                 >
                   Delete
                 </button>
+
               </td>
             </tr>
           ))}

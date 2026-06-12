@@ -45,47 +45,43 @@ function StudentForm() {
     }
   };
 
-  return (
-    <div style={{ padding: '20px' }}>
-      <h2>Student Registration</h2>
+return (
+  <div className="card">
+    <h2>Student Registration</h2>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Student Name"
-          value={formData.name}
-          onChange={handleChange}
-        />
+    <form onSubmit={handleSubmit} className="student-form">
 
-        <br /><br />
+      <input
+        type="text"
+        name="name"
+        placeholder="Student Name"
+        value={formData.name}
+        onChange={handleChange}
+      />
 
-        <input
-          type="text"
-          name="rollNumber"
-          placeholder="Roll Number"
-          value={formData.rollNumber}
-          onChange={handleChange}
-        />
+      <input
+        type="text"
+        name="rollNumber"
+        placeholder="Roll Number"
+        value={formData.rollNumber}
+        onChange={handleChange}
+      />
 
-        <br /><br />
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        value={formData.email}
+        onChange={handleChange}
+      />
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-        />
+      <button type="submit">
+        Register Student
+      </button>
 
-        <br /><br />
-
-        <button type="submit">
-          Register Student
-        </button>
-      </form>
-    </div>
-  );
+    </form>
+  </div>
+);
 }
 
 export default StudentForm;

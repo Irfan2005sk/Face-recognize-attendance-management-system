@@ -3,6 +3,7 @@ import axios from 'axios';
 
 function StudentList() {
   const [students, setStudents] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     fetchStudents();
@@ -60,10 +61,22 @@ function StudentList() {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className="card">
+
       <h2>Student List</h2>
 
-      <table border="1" cellPadding="10">
+      <input
+        className="search-box"
+        type="text"
+        placeholder="Search Student..."
+        value={searchTerm}
+        onChange={(e) =>
+          setSearchTerm(e.target.value)
+        }
+      />
+
+      <table>
+
         <thead>
           <tr>
             <th>Name</th>
@@ -74,33 +87,37 @@ function StudentList() {
         </thead>
 
         <tbody>
-          {(students || []).map((student) => (
-            <tr key={student._id}>
-              <td>{student.name}</td>
-              <td>{student.rollNumber}</td>
-              <td>{student.email}</td>
+          {(students || [])
+            .filter(student =>
+              student.name
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase())
+            )
+            .map((student) => (
+              <tr key={student._id}>
+                <td>{student.name}</td>
+                <td>{student.rollNumber}</td>
+                <td>{student.email}</td>
 
-              <td>
-                <button
-                  onClick={() =>
-                    editStudent(student)
-                  }
-                >
-                  Edit
-                </button>
+                <td>
+                  <button
+                    className="edit-btn"
+                    onClick={() => editStudent(student)}
+                  >
+                    Edit
+                  </button>
 
-                {' '}
-
-                <button
-                  onClick={() =>
-                    deleteStudent(student._id)
-                  }
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
+                  <button
+                    className="delete-btn"
+                    onClick={() =>
+                      deleteStudent(student._id)
+                    }
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>
