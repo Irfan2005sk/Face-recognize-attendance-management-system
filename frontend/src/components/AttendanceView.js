@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function AttendanceView() {
+  const navigate = useNavigate();
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
   const [records, setRecords] = useState([]);
@@ -242,7 +244,7 @@ function AttendanceView() {
 
         <br />
 
-        <button className="camera-btn">
+        <button className="camera-btn" onClick={() => navigate('/face-recognition')}>
           Open Face Recognition Camera
         </button>
 

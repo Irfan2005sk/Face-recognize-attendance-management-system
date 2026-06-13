@@ -21,6 +21,10 @@ const studentSchema = new mongoose.Schema(
     },
     phone: {
       type: String
+    },
+    faceDescriptor: {
+      type: [Number],
+      default: []
     }
   },
   {

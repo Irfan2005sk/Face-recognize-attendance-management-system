@@ -3,13 +3,15 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import StudentForm from './components/StudentForm';
 import CourseForm from './components/CourseForm';
-import AttendanceView from './components/AttendanceView';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Reports from './pages/Reports';
-import StudentList from './components/StudentList';
-import CourseList from './components/CourseList';
-
+import Students from './pages/Students';
+import Courses from './pages/Courses';
+import Attendance from './pages/Attendance';
+import FaceRecognition from './pages/FaceRecognition';
+import Analytics from './pages/Analytics';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -17,17 +19,13 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/students" element={<StudentForm />} />
-        <Route path="/courses" element={<CourseForm />} />
-        <Route path="/attendance" element={<AttendanceView />} />
-        <Route path="/reports" element={<Reports />} />
-        <Route path="/student-list" element={<StudentList />} />
-        <Route path="/course-list" element={<CourseList />} />
-        <Route
-          path="/reports"
-          element={<Reports />}
-        />
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/students" element={<ProtectedRoute><Students /></ProtectedRoute>} />
+        <Route path="/courses" element={<ProtectedRoute><Courses /></ProtectedRoute>} />
+        <Route path="/attendance" element={<ProtectedRoute><Attendance /></ProtectedRoute>} />
+        <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
+        <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
+        <Route path="/face-recognition" element={<ProtectedRoute><FaceRecognition /></ProtectedRoute>} />
       </Routes>
     </Router>
   );
