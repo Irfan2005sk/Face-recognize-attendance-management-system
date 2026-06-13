@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
 import Charts from '../components/Charts';
+import API from '../services/api';
 import '../styles/dashboard.css';
-import '../styles/analytics.css';
 
 const Analytics = () => {
   const [stats, setStats] = useState({
@@ -18,7 +17,7 @@ const Analytics = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/dashboard/stats');
+        const res = await API.get('/dashboard/stats');
         setStats(res.data);
       } catch (err) {
         console.error('Error fetching stats:', err);

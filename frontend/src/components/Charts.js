@@ -16,42 +16,24 @@ ChartJS.register(
   Legend
 );
 
-function Charts() {
-
+function Charts({ present = 95, absent = 25 }) {
   const data = {
-
-    labels: [
-      'Present',
-      'Absent'
-    ],
-
+    labels: ['Present', 'Absent'],
     datasets: [
       {
-
-        data: [
-          95,
-          25
-        ]
-
+        data: [present, absent],
+        backgroundColor: ['#10b981', '#ef4444'],
+        borderColor: ['#fff', '#fff'],
+        borderWidth: 2,
       }
     ]
-
   };
 
   return (
-
-    <div
-      style={{
-        width: '400px'
-      }}
-    >
-
+    <div style={{ width: '100%', maxWidth: '400px', margin: '0 auto' }}>
       <Pie data={data} />
-
     </div>
-
   );
-
 }
 
 export default Charts;

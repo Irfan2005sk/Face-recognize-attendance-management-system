@@ -11,6 +11,7 @@ import Courses from './pages/Courses';
 import Attendance from './pages/Attendance';
 import FaceRecognition from './pages/FaceRecognition';
 import Analytics from './pages/Analytics';
+import Notifications from './pages/Notifications';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/attendance" element={<ProtectedRoute><Attendance /></ProtectedRoute>} />
         <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
         <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
+        <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
         <Route path="/face-recognition" element={<ProtectedRoute><FaceRecognition /></ProtectedRoute>} />
       </Routes>
     </Router>

@@ -1,46 +1,43 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import '../styles/sidebar.css';
 
 function Sidebar() {
+  const location = useLocation();
+
+  const isActive = (path) => {
+    return location.pathname === path ? 'active' : '';
+  };
+
   return (
     <div className="sidebar">
-
       <h2>Attendance System</h2>
-
       <ul>
-
         <li>
-          <Link to="/">Dashboard</Link>
+          <Link to="/dashboard" className={isActive('/dashboard')}>Dashboard</Link>
         </li>
-
         <li>
-          <Link to="/students">Students</Link>
+          <Link to="/students" className={isActive('/students')}>Students</Link>
         </li>
-
         <li>
-          <Link to="/courses">Courses</Link>
+          <Link to="/courses" className={isActive('/courses')}>Courses</Link>
         </li>
-
         <li>
-          <Link to="/attendance">Attendance</Link>
+          <Link to="/attendance" className={isActive('/attendance')}>Attendance</Link>
         </li>
-
         <li>
-          <Link to="/reports">Reports</Link>
+          <Link to="/reports" className={isActive('/reports')}>Reports</Link>
         </li>
-
         <li>
-          <Link to="/analytics">Analytics</Link>
+          <Link to="/analytics" className={isActive('/analytics')}>Analytics</Link>
         </li>
-
         <li>
-          <Link to="/face-recognition">
-            Face Recognition
-          </Link>
+          <Link to="/notifications" className={isActive('/notifications')}>Notifications</Link>
         </li>
-
+        <li>
+          <Link to="/face-recognition" className={isActive('/face-recognition')}>Face Recognition</Link>
+        </li>
       </ul>
-
     </div>
   );
 }

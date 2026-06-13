@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { createCourse } from '../services/courseService';
 
 function CourseForm() {
   const [courseName, setCourseName] = useState('');
@@ -9,13 +9,10 @@ function CourseForm() {
     e.preventDefault();
 
     try {
-      await axios.post(
-        'http://localhost:5000/api/courses',
-        {
-          name: courseName,
-          code: courseCode
-        }
-      );
+      await createCourse({
+        name: courseName,
+        code: courseCode
+      });
 
       alert('Course created successfully!');
 
@@ -31,29 +28,26 @@ function CourseForm() {
 
   return (
     <div className="card">
-
       <h2>Add Course</h2>
-
       <form className="student-form" onSubmit={handleSubmit}>
-        <h2>Create Course</h2>
         <input
           type="text"
           placeholder="Course Name"
           value={courseName}
           onChange={(e) => setCourseName(e.target.value)}
+          required
         />
         <input
           type="text"
           placeholder="Course Code"
           value={courseCode}
           onChange={(e) => setCourseCode(e.target.value)}
+          required
         />
-        <button type="submit">
+        <button type="submit" className="submit-btn">
           Add Course
         </button>
-
       </form>
-
     </div>
   );
 }

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
+import { getCourses } from '../services/courseService';
+import { markFaceAttendance } from '../services/attendanceService';
 import '../styles/dashboard.css';
-import '../styles/faceRecognition.css';
 
 const FaceRecognition = () => {
   const videoRef = useRef(null);
@@ -15,15 +15,15 @@ const FaceRecognition = () => {
   const [isCameraOpen, setIsCameraOpen] = useState(false);
 
   useEffect(() => {
-    const fetchCourses = async () => {
+    const fetchCoursesData = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/courses');
-        setCourses(res.data);
+        const data = await getCourses();
+        setCourses(data);
       } catch (err) {
         console.error('Error fetching courses:', err);
       }
     };
-    fetchCourses();
+    fetchCoursesData();
   }, []);
 
   const startCamera = async () => {
@@ -60,14 +60,13 @@ const FaceRecognition = () => {
       // Placeholder for face recognition logic
       setMessage('Face recognition is being simulated for this demo.');
       
-      // Simulate backend call
-      const res = await axios.post('http://localhost:5000/api/face-recognition/mark', {
+      const res = await markFaceAttendance({
         studentName: 'Test Student', 
         course: selectedCourse,
         confidence: 0.95
       });
 
-      setMessage(res.data.message);
+      setMessage(res.message);
     } catch (err) {
       setMessage(err.response?.data?.message || 'Recognition failed');
     } finally {
