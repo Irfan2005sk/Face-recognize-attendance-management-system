@@ -6,6 +6,7 @@ import { markFaceAttendance } from '../services/attendanceService';
 import '../styles/dashboard.css';
 
 const FaceRecognition = () => {
+  const streamRef = useRef(null);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -26,13 +27,25 @@ const FaceRecognition = () => {
     fetchCoursesData();
   }, []);
 
+  useEffect(() => {
+    if (
+      isCameraOpen &&
+      videoRef.current &&
+      streamRef.current
+    ) {
+      videoRef.current.srcObject = streamRef.current;
+    }
+  }, [isCameraOpen]);
+
   const startCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        setIsCameraOpen(true);
-      }
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true
+      });
+
+      streamRef.current = stream;
+      setIsCameraOpen(true);
+
     } catch (err) {
       setMessage('Error accessing camera: ' + err.message);
     }
@@ -40,8 +53,9 @@ const FaceRecognition = () => {
 
   const stopCamera = () => {
     if (videoRef.current && videoRef.current.srcObject) {
-      const tracks = videoRef.current.srcObject.getTracks();
+      const tracks = streamRef.current?.getTracks() || [];
       tracks.forEach(track => track.stop());
+      streamRef.current = null;
       videoRef.current.srcObject = null;
       setIsCameraOpen(false);
     }
@@ -59,9 +73,9 @@ const FaceRecognition = () => {
     try {
       // Placeholder for face recognition logic
       setMessage('Face recognition is being simulated for this demo.');
-      
+
       const res = await markFaceAttendance({
-        studentName: 'Test Student', 
+        studentName: 'Test Student',
         course: selectedCourse,
         confidence: 0.95
       });
@@ -81,10 +95,10 @@ const FaceRecognition = () => {
         <Navbar />
         <div className="card">
           <h2>Face Recognition Attendance</h2>
-          
+
           <div className="course-selector">
-            <select 
-              value={selectedCourse} 
+            <select
+              value={selectedCourse}
               onChange={(e) => setSelectedCourse(e.target.value)}
               className="filter-select"
               style={{ marginLeft: 0 }}
@@ -98,10 +112,11 @@ const FaceRecognition = () => {
 
           <div className="camera-wrapper">
             {isCameraOpen ? (
-              <video 
-                ref={videoRef} 
-                autoPlay 
-                muted 
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
                 className="camera-video"
               />
             ) : (
