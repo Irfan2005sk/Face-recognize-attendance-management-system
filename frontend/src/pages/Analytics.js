@@ -3,6 +3,8 @@ import axios from 'axios';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
 import Charts from '../components/Charts';
+import '../styles/dashboard.css';
+import '../styles/analytics.css';
 
 const Analytics = () => {
   const [stats, setStats] = useState({
@@ -32,27 +34,27 @@ const Analytics = () => {
         <Navbar />
         <div className="card">
           <h2>Analytics Overview</h2>
-          <div className="cards">
-            <div className="card" style={{ background: '#3b82f6', color: 'white' }}>
+          <div className="stats-grid">
+            <div className="stat-card blue-card">
               <h3>Total Students</h3>
-              <p style={{ fontSize: '24px', fontWeight: 'bold' }}>{stats.totalStudents}</p>
+              <p className="stat-value">{stats.totalStudents}</p>
             </div>
-            <div className="card" style={{ background: '#10b981', color: 'white' }}>
+            <div className="stat-card green-card">
               <h3>Total Courses</h3>
-              <p style={{ fontSize: '24px', fontWeight: 'bold' }}>{stats.totalCourses}</p>
+              <p className="stat-value">{stats.totalCourses}</p>
             </div>
-            <div className="card" style={{ background: '#f59e0b', color: 'white' }}>
+            <div className="stat-card orange-card">
               <h3>Today's Attendance</h3>
-              <p style={{ fontSize: '24px', fontWeight: 'bold' }}>{stats.todayAttendance}</p>
+              <p className="stat-value">{stats.todayAttendance}</p>
             </div>
-            <div className="card" style={{ background: '#ef4444', color: 'white' }}>
+            <div className="stat-card red-card">
               <h3>Attendance Rate</h3>
-              <p style={{ fontSize: '24px', fontWeight: 'bold' }}>{stats.attendanceRate}%</p>
+              <p className="stat-value">{stats.attendanceRate}%</p>
             </div>
           </div>
           
-          <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'center' }}>
-            <div style={{ width: '100%', maxWidth: '500px' }}>
+          <div className="chart-section">
+            <div className="chart-wrapper">
               <h3>Attendance Distribution</h3>
               <Charts />
             </div>

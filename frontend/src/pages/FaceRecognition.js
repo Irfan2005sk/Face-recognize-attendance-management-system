@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
+import '../styles/dashboard.css';
+import '../styles/faceRecognition.css';
 
 const FaceRecognition = () => {
   const videoRef = useRef(null);
@@ -55,16 +57,12 @@ const FaceRecognition = () => {
     setMessage('Processing...');
 
     try {
-      // In a real app, we would use face-api.js or similar here.
-      // For this implementation, we'll simulate the process or use a placeholder.
-      // Since I'm an AI, I'll provide the code that would integrate with a face recognition library.
-      
       // Placeholder for face recognition logic
       setMessage('Face recognition is being simulated for this demo.');
       
       // Simulate backend call
       const res = await axios.post('http://localhost:5000/api/face-recognition/mark', {
-        studentName: 'Test Student', // This would come from recognition
+        studentName: 'Test Student', 
         course: selectedCourse,
         confidence: 0.95
       });
@@ -84,12 +82,13 @@ const FaceRecognition = () => {
         <Navbar />
         <div className="card">
           <h2>Face Recognition Attendance</h2>
-          <div style={{ marginBottom: '20px' }}>
+          
+          <div className="course-selector">
             <select 
               value={selectedCourse} 
               onChange={(e) => setSelectedCourse(e.target.value)}
               className="filter-select"
-              style={{ marginLeft: 0, width: '100%', maxWidth: '300px' }}
+              style={{ marginLeft: 0 }}
             >
               <option value="">Select Course</option>
               {courses.map(course => (
@@ -98,23 +97,23 @@ const FaceRecognition = () => {
             </select>
           </div>
 
-          <div className="camera-container" style={{ position: 'relative', width: '100%', maxWidth: '640px', background: '#000', borderRadius: '10px', overflow: 'hidden', margin: '0 auto' }}>
+          <div className="camera-wrapper">
             {isCameraOpen ? (
               <video 
                 ref={videoRef} 
                 autoPlay 
                 muted 
-                style={{ width: '100%', display: 'block' }}
+                className="camera-video"
               />
             ) : (
-              <div style={{ height: '480px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+              <div className="camera-placeholder">
                 Camera is off
               </div>
             )}
             <canvas ref={canvasRef} style={{ display: 'none' }} />
           </div>
 
-          <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'center' }}>
+          <div className="action-buttons">
             {!isCameraOpen ? (
               <button className="camera-btn" onClick={startCamera}>Start Camera</button>
             ) : (
@@ -128,7 +127,7 @@ const FaceRecognition = () => {
           </div>
 
           {message && (
-            <div style={{ marginTop: '20px', padding: '10px', borderRadius: '5px', background: message.includes('success') ? '#dcfce7' : '#fee2e2', color: message.includes('success') ? '#166534' : '#991b1b', textAlign: 'center' }}>
+            <div className={`status-message ${message.includes('success') ? 'status-success' : 'status-error'}`}>
               {message}
             </div>
           )}
